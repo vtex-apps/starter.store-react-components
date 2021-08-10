@@ -35,7 +35,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "poc-frontend-app",
+  "name": "@marlonguimaraes/poc-frontend-app",
   "author": "Marlon Guimarães",
   "module": "dist/poc-frontend-app.esm.js",
   "size-limit": [

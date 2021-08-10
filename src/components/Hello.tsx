@@ -15,7 +15,7 @@ export function Hello({ name, backgroundColor = '#db1457' }: HelloProps) {
         fontSize: '2em',
       }}
     >
-      Hello,{' '}
+      Helloooo,{' '}
       <span>
         <u>{name}</u>
       </span>
