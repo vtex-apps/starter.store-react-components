@@ -11,7 +11,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12.x'
-          registry-url: 'https://registry.npmjs.org'
       - name: Get frontend folder
         id: getFrontendFolder
         uses: mikefarah/yq@v4.11.2
@@ -19,9 +18,9 @@ jobs:
           cmd: yq eval '.store.folder' 'vtex.yml'
       - name: Export env.WORK_DIR as the frontend path
         run: echo "WORK_DIR=${{ steps.getFrontendFolder.outputs.result }}" >> $GITHUB_ENV
-      - run: npm install
+      - run: yarn install
         working-directory: ${{ env.WORK_DIR }}
-      - run: npm run npm-publish
+      - run: yarn publish --registry=https://sangalli.jfrog.io/artifactory/api/npm/default-npm-virtual/ --non-interactive
         working-directory: ${{ env.WORK_DIR }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
