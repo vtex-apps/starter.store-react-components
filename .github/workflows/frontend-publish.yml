@@ -23,6 +23,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12.x'
+          always-auth: true
           registry-url: 'https://sangalli.jfrog.io/artifactory/api/npm/default-npm-virtual/'
           # Defaults to the user or organization that owns the workflow file
           scope: '@octocat'
