@@ -1,0 +1,4 @@
+name: starter-store-react-components
+version: v0.0.1
+frontend:
+  folder: ./
