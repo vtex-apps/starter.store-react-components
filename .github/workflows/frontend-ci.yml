@@ -30,7 +30,7 @@ jobs:
         uses: mikefarah/yq@v4.11.2
         with:
           cmd: yq eval '.frontend.folder' 'vtex.yml'
-      - name: Export env.WORK_DIR as the backend path
+      - name: Export env.WORK_DIR as the frontend path
         run: echo "WORK_DIR=${{ steps.getFrontendFolder.outputs.result }}" >> $GITHUB_ENV
       - run: yarn
         working-directory: ${{ env.WORK_DIR }}
