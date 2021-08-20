@@ -26,5 +26,6 @@ jobs:
           registry-url: 'https://sangalli.jfrog.io/artifactory/api/npm/default-npm-virtual/'
           # Defaults to the user or organization that owns the workflow file
       - run: yarn publish
+        working-directory: ${{ env.WORK_DIR }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
