@@ -9,14 +9,14 @@ if (__DEV__) {
     serverUrl = 'http://localhost:8080/graphql';
     console.warn('Fetching graphql data from localhost');
   } else {
-    serverUrl = 'https://vtex-app-poc.vtex.systems/graphql';
+    serverUrl = 'https://vtex-app-poc-backend.vtex.systems/graphql';
   }
   config = {
     serverUrl: serverUrl,
   };
 } else {
   config = {
-    serverUrl: 'https://vtex-app-poc.vtex.systems/graphql',
+    serverUrl: 'https://vtex-app-poc-backend.vtex.systems/graphql',
   };
 }
 
