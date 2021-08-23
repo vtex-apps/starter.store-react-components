@@ -7,7 +7,7 @@ const App = () => {
   return (
     <div>
       <Thing />
-      <Hello name={'Marlon'} />
+      <Hello name={'VTEX'} />
     </div>
   );
 };
