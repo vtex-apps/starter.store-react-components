@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  useQuery,
-  gql
-} from "@apollo/client";
+import { useQuery, gql } from '@apollo/client';
 
 const HELLO_QUERY = gql`
   query Hello {
