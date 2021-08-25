@@ -1,23 +1,19 @@
+
+import * as configFile from '../config.json'
 interface Configuration {
   serverUrl: string;
 }
 
-let config: Configuration;
-if (__DEV__) {
-  let serverUrl;
+function getServerBaseUrl() : string {
   if (process.env.USE_LOCAL_SERVER === 'true') {
-    serverUrl = 'http://localhost:8080/graphql';
-    console.warn('Fetching graphql data from localhost');
+    return configFile.appBackendBaseUrl.localServer
   } else {
-    serverUrl = 'https://vtex-app-poc-backend.vtex.systems/graphql';
+    return configFile.appBackendBaseUrl[process.env.NODE_ENV]
   }
-  config = {
-    serverUrl: serverUrl,
-  };
-} else {
-  config = {
-    serverUrl: 'https://vtex-app-poc-backend.vtex.systems/graphql',
-  };
 }
+
+let config: Configuration= {
+  serverUrl: `${getServerBaseUrl()}/graphql`,
+};
 
 export const Configuration = config;
