@@ -2,4 +2,5 @@ name: starter-store-react-components
 version: v0.0.1
 
 ui-components:
-- folder: ./
+- name: store-ui-components
+  folder: ./
