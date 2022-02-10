@@ -16,6 +16,11 @@ jobs:
         uses: mikefarah/yq@v4.11.2
         with:
           cmd: yq eval '.ui-components[0].folder' 'vtex.yml'
+      - name: Get vendor
+        id: getVendor
+        uses: mikefarah/yq@v4.11.2
+        with:
+          cmd: yq eval '.vendor' 'vtex.yml'
       - name: Export env.WORK_DIR as the frontend path
         run: echo "WORK_DIR=${{ steps.getFrontendFolder.outputs.result }}" >> $GITHUB_ENV
       - run: yarn install
@@ -23,7 +28,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12.x'
-          registry-url: 'https://sangalli.jfrog.io/artifactory/api/npm/default-npm-virtual/'
+          registry-url: `https://vtexapps.jfrog.io/artifactory/api/npm/${{ steps.getVendor.outputs.result }}-npm-local/`
           # Defaults to the user or organization that owns the workflow file
       - run: yarn publish
         working-directory: ${{ env.WORK_DIR }}
