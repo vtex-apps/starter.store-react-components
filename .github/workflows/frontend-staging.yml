@@ -25,15 +25,14 @@ jobs:
         run: echo "WORK_DIR=${{ steps.getFrontendFolder.outputs.result }}" >> $GITHUB_ENV
       - run: yarn install
         working-directory:
-      - name: Set Registry URL to env
-        id: setRegistryUrl
-        run: echo "REGISTY_URL=https://vtexapps.jfrog.io/artifactory/api/npm/${{ steps.getVendor.outputs.result }}-npm-local/" >> $GITHUB_ENV
       - uses: actions/setup-node@v2
         with:
           node-version: '12.x'
-          registry-url:  ${{ env.REGISTRY_URL }}
+          registry-url: https://vtexapps.jfrog.io/artifactory/api/npm/${{ steps.getVendor.outputs.result }}-npm-local/ 
           # Defaults to the user or organization that owns the workflow file
-      - run: yarn publish
+      - run: yarn 
+        working-directory: ${{ env.WORK_DIR }}
+      - run: npm publish 
         working-directory: ${{ env.WORK_DIR }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
