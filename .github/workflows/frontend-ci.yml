@@ -25,13 +25,29 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Get frontend folder
-        id: getFrontendFolder
-        uses: mikefarah/yq@v4.11.2
+
+      - name: set-version-visibility-to-unpublished
+        if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+        run: echo "APP_VERSION_VISIBILITY=unpublished" >> $GITHUB_ENV
+
+      - name: set-version-visibility-to-development
+        if: ${{ !(github.event_name == 'push' && github.ref_name == 'main') }}
+        run: echo "APP_VERSION_VISIBILITY=development" >> $GITHUB_ENV
+
+      - name: Get app metadata
+        id: app-metadata
+        uses: vtex/app-metadata-action@main
         with:
-          cmd: yq eval '.ui-components[0].folder' 'vtex.yml'
-      - name: Export env.WORK_DIR as the frontend path
-        run: echo "WORK_DIR=${{ steps.getFrontendFolder.outputs.result }}" >> $GITHUB_ENV
+          version-visibility: ${{ env.APP_VERSION_VISIBILITY }}
+          version-increment-type: 'patch'
+
+      - name: Export env.WORK_DIR as the service path
+        run: echo "WORK_DIR=${{ steps.app-metadata.outputs.frontend-folder }}" >> $GITHUB_ENV
+
+      - name: Bump version before building
+        run: yarn version --new-version ${{steps.app-metadata.outputs.next-app-version}} --no-git-tag-version
+        working-directory: ${{ env.WORK_DIR }}
+
       - run: yarn
         working-directory: ${{ env.WORK_DIR }}
       - run: yarn run lint
