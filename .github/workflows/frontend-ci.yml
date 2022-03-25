@@ -5,6 +5,13 @@ name: Frontend Service CI
 
 on:
   workflow_call:
+    inputs:
+      APP_VERSION_VISIBILITY:
+        type: string
+        required: true
+      APP_VERSION_INCREMENT_TYPE:
+        type: string
+        required: true
 
 jobs:
   test:
@@ -23,20 +30,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: set-version-visibility-to-unpublished
-        if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
-        run: echo "APP_VERSION_VISIBILITY=unpublished" >> $GITHUB_ENV
-
-      - name: set-version-visibility-to-development
-        if: ${{ !(github.event_name == 'push' && github.ref_name == 'main') }}
-        run: echo "APP_VERSION_VISIBILITY=development" >> $GITHUB_ENV
-
       - name: Get app metadata
         id: app-metadata
         uses: vtex/app-metadata-action@main
         with:
-          version-visibility: ${{ env.APP_VERSION_VISIBILITY }}
-          version-increment-type: 'patch'
+          version-visibility: ${{ inputs.APP_VERSION_VISIBILITY }}
+          version-increment-type: ${{ inputs.APP_VERSION_INCREMENT_TYPE }}
 
       - name: Export env.WORK_DIR as the package path
         run: echo "WORK_DIR=${{ steps.app-metadata.outputs.frontend-folder }}" >> $GITHUB_ENV
