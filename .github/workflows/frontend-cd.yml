@@ -12,6 +12,9 @@ on:
       APP_VERSION_INCREMENT_TYPE:
         type: string
         required: true
+      WORK_DIR:
+        type: string
+        required: true
     secrets:
       NPM_TOKEN:
         required: true
@@ -34,9 +37,6 @@ jobs:
         with:
           version-visibility: ${{ inputs.APP_VERSION_VISIBILITY }}
           version-increment-type: 'patch'
-
-      - name: Export env.WORK_DIR as the package path
-        run: echo "WORK_DIR=${{ steps.app-metadata.outputs.frontend-folder }}" >> $GITHUB_ENV
 
       - name: Bump version before publishing
         run: yarn version --new-version ${{steps.app-metadata.outputs.next-app-version}} --no-git-tag-version
